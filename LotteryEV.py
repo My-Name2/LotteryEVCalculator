@@ -13,7 +13,7 @@ def calculate_ev(odds, payout, ticket_cost, tax_rate, instant_payout):
     return ev, net_payout, effective_probability
 
 # Streamlit App
-st.title("Lottery Expected Value (EV) Calculator")
+st.title("Lottery Expected Value (EV) Calculator by myname")
 st.write("""
 Use this calculator to determine if participating in a lottery is +EV (positive expected value) or -EV (negative expected value).
 """)
