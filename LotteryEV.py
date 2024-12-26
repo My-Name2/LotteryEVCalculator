@@ -16,6 +16,10 @@ def calculate_ev(odds, payout, ticket_cost, tax_rate, instant_payout, num_ticket
     ev_total = ev_single_ticket * num_tickets
     return ev_single_ticket, ev_total, net_payout, effective_probability
 
+def calculate_combined_probability(odds, num_tickets):
+    # Probability of winning multiplied by the number of tickets
+    return (1 / odds) * num_tickets
+
 # Streamlit App
 st.title("Lottery Expected Value (EV) Calculator")
 st.write("""
@@ -32,21 +36,23 @@ num_tickets = st.number_input("Enter the number of tickets you plan to purchase:
 # Instant Payout Option
 instant_payout = st.checkbox("Take Instant Payout (Halves the Prize Pool)")
 
-# Calculate EV when the user presses the button
+# Calculate EV and Combined Probability when the user presses the button
 if st.button("Calculate EV"):
     ev_single_ticket, ev_total, net_payout, effective_probability = calculate_ev(
         odds, payout, ticket_cost, tax_rate, instant_payout, num_tickets
     )
+    combined_probability = calculate_combined_probability(odds, num_tickets)
 
     # Display Results
     st.subheader("Lottery EV Analysis:")
     st.write(f"- **Odds of Winning:** 1 in {int(odds):,}")
     st.write(f"- **Adjusted Net Payout (after taxes):** ${net_payout:,.2f}")
-    st.write(f"- **Effective Probability of Winning:** {effective_probability:.10f}")
+    st.write(f"- **Effective Probability of Winning per Ticket:** {effective_probability:.10f}")
     st.write(f"- **Cost of a Single Ticket:** ${ticket_cost:.2f}")
     st.write(f"- **Number of Tickets Purchased:** {num_tickets}")
     st.write(f"- **Expected Value (EV) per Ticket:** ${ev_single_ticket:.2f}")
     st.write(f"- **Total Expected Value (EV) for {num_tickets} Tickets:** ${ev_total:.2f}")
+    st.write(f"- **Combined Probability of Winning with {num_tickets} Tickets:** {combined_probability:.10f}")
 
     # Conclusion
     if ev_total > 0:
